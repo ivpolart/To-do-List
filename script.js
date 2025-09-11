@@ -7,13 +7,7 @@ window.addEventListener('DOMContentLoaded', function() {
     const todoList = document.querySelector('.todo__list')
     const todoListItem = document.querySelectorAll('.todo__list-item');
 
-    // todoListItem.forEach(e => {
-    //     e.style.color = 'red';
-    // })
-
-    // const modalTrigger = document.querySelectorAll('[data-modal]'),
-    //     modal = document.querySelector('.modal');
-
+    // Modal
     addNewBtn.addEventListener('click', openModal);
 
     function closeModal() {
@@ -43,54 +37,114 @@ window.addEventListener('DOMContentLoaded', function() {
         closeModal();
     })
 
-    console.log(todoListItem);
+    // Create New Task
+    let tasks = [];
 
     function addNewElement() {
-        todoList.insertAdjacentHTML(
-            'beforeend',
-            `
-            <li class="todo__list-item">
-                <label class="checkbox">
-                    <input class="todo__checkbox" type="checkbox">
-                    <span class="checkbox__custom"></span>
-                    ${inputNewTask.value}
-                </label>
-                <span class="todo__list-edit"></span>
-                <span class="todo__list-delete"></span>
-            </li>
-            `
-        );
+        const newTask = {
+            "id": Date.now(),
+            "text": inputNewTask.value, 
+            "done": false
+        }
         
-        const tasks = Array.from(document.querySelectorAll('.todo__list-item label')).map(label => label.innerText.trim());
+        if(inputNewTask.value != '') {
+            tasks.push(newTask)
+
+            todoList.insertAdjacentHTML(
+                'beforeend',
+                `
+                <li class="todo__list-item" data-id="${newTask.id}">
+                    <label class="checkbox">
+                        <input class="todo__checkbox" type="checkbox">
+                        <span class="checkbox__custom ${newTask.done ? 'checked' : ''}"></span>
+                        ${newTask.text}
+                    </label>
+                    <span class="todo__list-edit"></span>
+                    <span class="todo__list-delete"></span>
+                </li>
+                `
+            );
+        }
         
         localStorage.setItem('tasks', JSON.stringify(tasks));
         inputNewTask.value = '';
+
         closeModal();
     }
 
     function loadTasks() {
-        const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
-        savedTasks.forEach(task => {
-            todoList.innerHTML = `
-            <li class="todo__list-item">
+        tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        // console.log(tasks);
+        
+        tasks.forEach(task => {
+            todoList.insertAdjacentHTML(
+            'beforeend',
+            `
+            <li class="todo__list-item" data-id="${task.id}">
                 <label class="checkbox">
                     <input class="todo__checkbox" type="checkbox">
-                    <span class="checkbox__custom"></span>
-                    ${task}
+                    <span class="checkbox__custom ${task.done ? 'checked' : ''}"></span>
+                    ${task.text}
                 </label>
                 <span class="todo__list-edit"></span>
                 <span class="todo__list-delete"></span>
             </li>
             `
+            )
         });
     }
-    
 
+    todoList.addEventListener('click', (e) => {
+        const li = e.target.closest('.todo__list-item');
+        if (!li) return;
+        
+        li.classList.toggle('checked', e.target.checked);
+
+        const id = li.dataset.id;
+        const task = tasks.find(t => t.id == id);
+        if (!task) return;
+
+        if (e.target.classList.contains('todo__checkbox')) {
+            task.done = e.target.checked;
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
+    });
+    
     applyBtn.addEventListener('click', () => {
         console.log(inputNewTask.value);
         addNewElement();
+    })
+
+    // Search
+    const searchInput = document.querySelector('.todo__search-input');
+    const searchBtn = document.querySelector('.todo__search-btn');
+
+    searchInput.addEventListener('input', () => {
+        const value = searchInput.value.toLowerCase();
+        const filterTasks = tasks.filter(e => {
+            return e.text.toLowerCase().includes(searchInput.value.toLowerCase());
+        });
+
+        todoList.innerHTML = '';
+
+        const showTasks = value ? filterTasks : tasks;
         
-        // todoListItem.push(inputNewTask.value);
+        filterTasks.forEach(task => {
+            todoList.insertAdjacentHTML(
+                'beforeend',
+                `
+                <li class="todo__list-item" data-id="${task.id}">
+                    <label class="checkbox">
+                        <input class="todo__checkbox" type="checkbox">
+                        <span class="checkbox__custom ${task.done ? 'checked' : ''}"></span>
+                        ${task.text}
+                    </label>
+                    <span class="todo__list-edit"></span>
+                    <span class="todo__list-delete"></span>
+                </li>
+                `
+            );
+        })
     })
 
     loadTasks();

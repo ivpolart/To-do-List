@@ -68,9 +68,9 @@ body {
     display: flex;
 }
 
-.todo__search:has(.todo__search-input:not(:placeholder-shown)) .todo__search-label {
+/* .todo__search:has(.todo__search-input:not(:placeholder-shown)) .todo__search-label {
     top: 0;
-}
+} */
 
 .todo__search-input {
     width: 100%;
@@ -81,7 +81,7 @@ body {
     padding: 10px;
 }
 
-.todo__search-label {
+/* .todo__search-label {
     background: #fff;
     font-size: 14px;
     position: absolute;
@@ -90,7 +90,7 @@ body {
     transform: translateY(-50%);
     transition: top .3s;
     color: #d3d3d3;
-}
+} */
 
 .todo__list {
     margin: 0;
