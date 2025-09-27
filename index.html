@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width" />
   <title>To Do List</title>
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
   <script src="script.js"></script>
 </head>
 <body>
@@ -16,24 +16,46 @@
             </div>
             <div class="todo__search-block">
                 <div class="todo__search">
-                    <input class="todo__search-input" id="todo__search-input" type="text" placeholder="Search Note" autocomplete="off">
+                    <input class="todo__search-input" id="todo__search-input" type="text" placeholder="Search note" autocomplete="off">
                 </div>
-                <div class="todo__dm-switcher"></div>
+                <!-- <button class="todo__dm-switcher">
+                    <i class="ico-moon"></i>
+                </button> -->
             </div>
             <ul class="todo__list">
+                <li class="todo__list-item">
+                    <img src="img/img-01.svg" alt="">
+                    <p>Empty...</p>
+                </li>
             </ul>
             <div class="todo__new-task">
-                <button class="todo__add">+</button>
+                <button class="todo__add"></button>
+            </div>
+            <div class="todo__change-modal">
+                <div class="todo__change-modal-container">
+                    <div class="todo__change-modal-title">
+                        <h3>Change Item</h3>
+                    </div>
+                    <div class="todo__change-modal-content">
+                        <input class="todo__change-modal-input" type="text" placeholder="Input your note...">
+                        <div class="todo__change-modal-btns">
+                            <button class="btn btn-cancel">Cancel</button>
+                            <button class="btn btn-apply">Apply</button>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="todo__modal">
                 <div class="todo__modal-container">
-                    <div class="todo__popup-title">
+                    <div class="todo__modal-title">
                         <h3>New Note</h3>
                     </div>
-                    <input class="todo__popup-input" type="text" placeholder="Input your note...">
-                    <div class="todo__popup-btns">
-                        <button class="btn btn-cancel">Cancel</button>
-                        <button class="btn btn-apply">Apply</button>
+                    <div class="todo__modal-content">
+                        <input class="todo__modal-input" type="text" placeholder="Input your note...">
+                        <div class="todo__modal-btns">
+                            <button class="btn btn-cancel">Cancel</button>
+                            <button class="btn btn-apply">Apply</button>
+                        </div>
                     </div>
                 </div>
             </div>
